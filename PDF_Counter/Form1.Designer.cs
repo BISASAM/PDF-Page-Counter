@@ -36,7 +36,7 @@
             this.tb_folderpath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
-            this.PDFName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PdfName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Speicherort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Seiten = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btn_show_files = new System.Windows.Forms.Button();
@@ -49,6 +49,7 @@
             this.lbl_version = new System.Windows.Forms.Label();
             this.btn_abort = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.Indikator = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // btn_cwd
@@ -104,9 +105,10 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.PDFName,
-            this.Speicherort,
-            this.Seiten});
+            this.Indikator,
+            this.PdfName,
+            this.Seiten,
+            this.Speicherort});
             this.listView1.HideSelection = false;
             this.listView1.Location = new System.Drawing.Point(12, 113);
             this.listView1.Name = "listView1";
@@ -115,10 +117,10 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             // 
-            // PDFName
+            // PdfName
             // 
-            this.PDFName.Text = "Name";
-            this.PDFName.Width = 230;
+            this.PdfName.Text = "Name";
+            this.PdfName.Width = 300;
             // 
             // Speicherort
             // 
@@ -128,7 +130,7 @@
             // Seiten
             // 
             this.Seiten.Text = "Seiten";
-            this.Seiten.Width = 230;
+            this.Seiten.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // btn_show_files
             // 
@@ -222,6 +224,11 @@
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
             // 
+            // Indikator
+            // 
+            this.Indikator.Text = "";
+            this.Indikator.Width = 30;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -259,7 +266,7 @@
         private System.Windows.Forms.TextBox tb_folderpath;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ListView listView1;
-        private System.Windows.Forms.ColumnHeader PDFName;
+        private System.Windows.Forms.ColumnHeader PdfName;
         private System.Windows.Forms.ColumnHeader Speicherort;
         private System.Windows.Forms.ColumnHeader Seiten;
         private System.Windows.Forms.Button btn_show_files;
@@ -272,6 +279,7 @@
         private System.Windows.Forms.Label lbl_version;
         private System.Windows.Forms.Button btn_abort;
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.ColumnHeader Indikator;
     }
 }
 
