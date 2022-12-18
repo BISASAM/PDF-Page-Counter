@@ -36,9 +36,10 @@
             this.tb_folderpath = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.listView1 = new System.Windows.Forms.ListView();
+            this.Indikator = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.PdfName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Speicherort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Seiten = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Speicherort = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.btn_show_files = new System.Windows.Forms.Button();
             this.btn_count = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@
             this.lbl_version = new System.Windows.Forms.Label();
             this.btn_abort = new System.Windows.Forms.Button();
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
-            this.Indikator = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.SuspendLayout();
             // 
             // btn_cwd
@@ -117,20 +117,25 @@
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             // 
+            // Indikator
+            // 
+            this.Indikator.Text = "";
+            this.Indikator.Width = 30;
+            // 
             // PdfName
             // 
             this.PdfName.Text = "Name";
             this.PdfName.Width = 300;
             // 
-            // Speicherort
-            // 
-            this.Speicherort.Text = "Speicherort";
-            this.Speicherort.Width = 400;
-            // 
             // Seiten
             // 
             this.Seiten.Text = "Seiten";
             this.Seiten.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // Speicherort
+            // 
+            this.Speicherort.Text = "Speicherort";
+            this.Speicherort.Width = 400;
             // 
             // btn_show_files
             // 
@@ -204,9 +209,9 @@
             this.lbl_version.AutoSize = true;
             this.lbl_version.Location = new System.Drawing.Point(9, 533);
             this.lbl_version.Name = "lbl_version";
-            this.lbl_version.Size = new System.Drawing.Size(31, 13);
+            this.lbl_version.Size = new System.Drawing.Size(41, 13);
             this.lbl_version.TabIndex = 39;
-            this.lbl_version.Text = "v 0.1";
+            this.lbl_version.Text = "version";
             // 
             // btn_abort
             // 
@@ -223,11 +228,6 @@
             this.backgroundWorker1.DoWork += new System.ComponentModel.DoWorkEventHandler(this.backgroundWorker1_DoWork);
             this.backgroundWorker1.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.backgroundWorker1_ProgressChanged);
             this.backgroundWorker1.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.backgroundWorker1_RunWorkerCompleted);
-            // 
-            // Indikator
-            // 
-            this.Indikator.Text = "";
-            this.Indikator.Width = 30;
             // 
             // Form1
             // 
