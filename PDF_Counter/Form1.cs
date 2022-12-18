@@ -20,7 +20,7 @@ namespace PDF_Counter
             InitializeComponent();       
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
-            lbl_version.Text = "v0.20";
+            lbl_version.Text = "v0.21";
             uiBeforeJob();
             
         }
@@ -42,6 +42,7 @@ namespace PDF_Counter
         {
             // Set to "details view".
             listView1.View = View.Details;
+            listView1.FullRowSelect = true;
             //clear ListView
             listView1.Items.Clear();
 
@@ -61,7 +62,7 @@ namespace PDF_Counter
                 // populate listview
                 foreach (var entry in filepaths)
                 {
-                    listView1.Items.Add(new ListViewItem(new[] {Path.GetFileName(entry), Path.GetDirectoryName(entry), "?" }));
+                    listView1.Items.Add(new ListViewItem(new[] {"", Path.GetFileName(entry), "?", Path.GetDirectoryName(entry) }));
                 }
               
                 btn_count.Enabled = true;
@@ -82,7 +83,7 @@ namespace PDF_Counter
                 for (var i = 0; i < listView1.Items.Count; i++)
                 {   
                     var item = listView1.Items[i];
-                    paths.Add((i, item.SubItems[1].Text + "\\" + item.SubItems[0].Text));
+                    paths.Add((i, item.SubItems[3].Text + "\\" + item.SubItems[1].Text));
                 }
 
                 // Start the asynchronous operation.
@@ -149,6 +150,7 @@ namespace PDF_Counter
             lbl_status.Text = e.ProgressPercentage.ToString() + "%";
             (int idx, int page_count, int total_pages) temp = ((int, int, int)) e.UserState;
             listView1.Items[temp.idx].SubItems[2].Text = temp.page_count.ToString();
+            listView1.Items[temp.idx].SubItems[0].Text = "\u25B6";
             listView1.EnsureVisible(temp.idx);
             lbl_total_count.Text = temp.total_pages.ToString();
         }
