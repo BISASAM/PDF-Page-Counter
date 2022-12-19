@@ -251,7 +251,7 @@
             this.Controls.Add(this.tb_folderpath);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
-            this.Text = "PDF Seiten Zähler";
+            this.Text = "PDF Page Counter";
             this.ResumeLayout(false);
             this.PerformLayout();
 
