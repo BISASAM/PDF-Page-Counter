@@ -21,16 +21,13 @@ namespace PDF_Counter
             InitializeComponent();       
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
-            lbl_version.Text = "v0.22";
+            lbl_version.Text = "v0.23";
             uiBeforeJob();
             
         }
 
         private void btn_browse_Click(object sender, EventArgs e)
         {
-            Console.WriteLine(GetShortPath(@"D:\Scanzentrum Übergabe an IT\1230 SG Service\1230 SG Service Fr. Clissa _Auftragsnummern 1230A221118_C1 und _C2\041.5 Ausschreibung von Postdienstleistungen-Vergabeakte nach § 24 EG-VOL-A-2014\041.5 Ausschreibung von Postdienstleistungen - Ve.pdf"));
-            MessageBox.Show(GetShortPath(@"D:\Scanzentrum Übergabe an IT\1230 SG Service\1230 SG Service Fr. Clissa _Auftragsnummern 1230A221118_C1 und _C2\041.5 Ausschreibung von Postdienstleistungen-Vergabeakte nach § 24 EG-VOL-A-2014\041.5 Ausschreibung von Postdienstleistungen - Ve.pdf"));
-
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 tb_folderpath.Text = folderBrowserDialog1.SelectedPath;
@@ -116,9 +113,9 @@ namespace PDF_Counter
 
             int counter = 0;
             int total_pages = 0;
-            try
+            foreach (var item in (List<(int Index, string Name)>)e.Argument)
             {
-                foreach (var item in (List<(int Index, string Name)>)e.Argument)
+                try
                 {
                     if (worker.CancellationPending == true)
                     {
@@ -127,24 +124,22 @@ namespace PDF_Counter
                     }
                     else
                     {
-                        
+
                         counter++;
                         int page_count = getNumberOfPdfPages(item.Name);
 
                         total_pages = total_pages + page_count;
                         int p = (int)((float)counter / (float)total_files * 100);
-                        
-                        worker.ReportProgress(p, (item.Index, page_count, total_pages));
-                        Debug.WriteLine(counter);                   
-                    }
-                }
 
-                e.Result = total_pages;              
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                        worker.ReportProgress(p, (item.Index, page_count, total_pages));
+                        Debug.WriteLine(counter);
+                    }
+                    e.Result = total_pages;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message + "\n\n Der Zähler überspringt diese Datei und zählt weiter.", "Fehler", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -174,14 +169,17 @@ namespace PDF_Counter
             }
             else
             {
-                lbl_total_count.Text = e.Result.ToString();
+                if (e.Result != null) {
+                    lbl_total_count.Text = e.Result.ToString();
+                }
                 uiBeforeJob();
             }
         } 
     
         private static int getNumberOfPdfPages(string pathDocument)
         {
-            return new iTextSharp.text.pdf.PdfReader(pathDocument).NumberOfPages;
+            var c = 9;
+            return 1 / (3*3-c); // new iTextSharp.text.pdf.PdfReader(pathDocument).NumberOfPages;
         }
 
         private void uiBeforeJob()
@@ -204,13 +202,20 @@ namespace PDF_Counter
             cb_subfolder.Enabled = false;
         }
 
+        // --------------- Method to get short DOS-Path Representation, but didn't solve Problem with iTextSharp
         [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public static extern uint GetShortPathName(string lpszLongPath, StringBuilder lpszShortPath, uint cchBuffer);
+        public static extern int GetShortPathName(
+                 [MarshalAs(UnmanagedType.LPTStr)]
+                   string path,
+                 [MarshalAs(UnmanagedType.LPTStr)]
+                   StringBuilder shortPath,
+                 int shortPathLength
+                 );
 
         private static string GetShortPath(string longPath)
         {
-            StringBuilder shortPath = new StringBuilder(255);
-            GetShortPathName(longPath, shortPath, 255);
+            StringBuilder shortPath = new StringBuilder(65000);
+            GetShortPathName(longPath, shortPath, shortPath.Capacity);
             return shortPath.ToString();
         }
 
