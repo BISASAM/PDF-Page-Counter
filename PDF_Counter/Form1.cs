@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,13 +21,16 @@ namespace PDF_Counter
             InitializeComponent();       
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
-            lbl_version.Text = "v0.21";
+            lbl_version.Text = "v0.22";
             uiBeforeJob();
             
         }
 
         private void btn_browse_Click(object sender, EventArgs e)
         {
+            Console.WriteLine(GetShortPath(@"D:\Scanzentrum Übergabe an IT\1230 SG Service\1230 SG Service Fr. Clissa _Auftragsnummern 1230A221118_C1 und _C2\041.5 Ausschreibung von Postdienstleistungen-Vergabeakte nach § 24 EG-VOL-A-2014\041.5 Ausschreibung von Postdienstleistungen - Ve.pdf"));
+            MessageBox.Show(GetShortPath(@"D:\Scanzentrum Übergabe an IT\1230 SG Service\1230 SG Service Fr. Clissa _Auftragsnummern 1230A221118_C1 und _C2\041.5 Ausschreibung von Postdienstleistungen-Vergabeakte nach § 24 EG-VOL-A-2014\041.5 Ausschreibung von Postdienstleistungen - Ve.pdf"));
+
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 tb_folderpath.Text = folderBrowserDialog1.SelectedPath;
@@ -198,6 +202,16 @@ namespace PDF_Counter
             btn_browse.Enabled = false;
             btn_cwd.Enabled = false;
             cb_subfolder.Enabled = false;
+        }
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
+        public static extern uint GetShortPathName(string lpszLongPath, StringBuilder lpszShortPath, uint cchBuffer);
+
+        private static string GetShortPath(string longPath)
+        {
+            StringBuilder shortPath = new StringBuilder(255);
+            GetShortPathName(longPath, shortPath, 255);
+            return shortPath.ToString();
         }
 
     }
