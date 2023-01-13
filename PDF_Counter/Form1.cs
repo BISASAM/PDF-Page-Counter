@@ -21,7 +21,7 @@ namespace PDF_Counter
             InitializeComponent();       
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
-            lbl_version.Text = "v0.23";
+            lbl_version.Text = "v0.24";
             uiBeforeJob();
             
         }
@@ -169,17 +169,17 @@ namespace PDF_Counter
             }
             else
             {
+                uiBeforeJob();
                 if (e.Result != null) {
                     lbl_total_count.Text = e.Result.ToString();
                 }
-                uiBeforeJob();
+                MessageBox.Show("Zählung abgeschlossen.", "Erfolg", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         } 
     
         private static int getNumberOfPdfPages(string pathDocument)
         {
-            var c = 9;
-            return 1 / (3*3-c); // new iTextSharp.text.pdf.PdfReader(pathDocument).NumberOfPages;
+            return new iTextSharp.text.pdf.PdfReader(@"\\?\" + pathDocument).NumberOfPages; // \\?\ = support for long paths
         }
 
         private void uiBeforeJob()
@@ -201,23 +201,5 @@ namespace PDF_Counter
             btn_cwd.Enabled = false;
             cb_subfolder.Enabled = false;
         }
-
-        // --------------- Method to get short DOS-Path Representation, but didn't solve Problem with iTextSharp
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto)]
-        public static extern int GetShortPathName(
-                 [MarshalAs(UnmanagedType.LPTStr)]
-                   string path,
-                 [MarshalAs(UnmanagedType.LPTStr)]
-                   StringBuilder shortPath,
-                 int shortPathLength
-                 );
-
-        private static string GetShortPath(string longPath)
-        {
-            StringBuilder shortPath = new StringBuilder(65000);
-            GetShortPathName(longPath, shortPath, shortPath.Capacity);
-            return shortPath.ToString();
-        }
-
     }
 }
