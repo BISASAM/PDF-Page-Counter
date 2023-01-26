@@ -22,5 +22,17 @@ namespace PDF_Counter.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool includeSubfolder {
+            get {
+                return ((bool)(this["includeSubfolder"]));
+            }
+            set {
+                this["includeSubfolder"] = value;
+            }
+        }
     }
 }

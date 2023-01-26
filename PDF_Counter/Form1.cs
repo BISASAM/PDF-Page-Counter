@@ -18,12 +18,23 @@ namespace PDF_Counter
     {
         public Form1()
         {
-            InitializeComponent();       
+            InitializeComponent();                       
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
             backgroundWorker1.WorkerReportsProgress = true;
             backgroundWorker1.WorkerSupportsCancellation = true;
-            lbl_version.Text = "v0.24";
+            lbl_version.Text = "v0.25";
             uiBeforeJob();
-            
+
+            cb_subfolder.Checked = Properties.Settings.Default.includeSubfolder;
+        }
+
+        private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Properties.Settings.Default.includeSubfolder = cb_subfolder.Checked;
+            Properties.Settings.Default.Save();
         }
 
         private void btn_browse_Click(object sender, EventArgs e)
@@ -179,7 +190,31 @@ namespace PDF_Counter
     
         private static int getNumberOfPdfPages(string pathDocument)
         {
-            return new iTextSharp.text.pdf.PdfReader(@"\\?\" + pathDocument).NumberOfPages; // \\?\ = support for long paths
+            try
+            {
+                return new iTextSharp.text.pdf.PdfReader(pathDocument).NumberOfPages;
+            }
+            catch (Exception ex)
+            {
+            }
+
+            try
+            {
+                return new iTextSharp.text.pdf.PdfReader("\\\\?\\" + pathDocument).NumberOfPages; // \\?\ = support for long paths
+            }
+            catch (Exception ex)
+            {              
+            }
+         
+            try
+            {
+                return new iTextSharp.text.pdf.PdfReader("\\\\.\\" + pathDocument).NumberOfPages; // \\.\ = support for long paths, diff method
+            }
+            catch (Exception ex)
+            {             
+            }
+
+            throw new FileNotFoundException(pathDocument);
         }
 
         private void uiBeforeJob()
@@ -201,5 +236,7 @@ namespace PDF_Counter
             btn_cwd.Enabled = false;
             cb_subfolder.Enabled = false;
         }
+
+        
     }
 }
